@@ -3,7 +3,7 @@ import { categories } from '../data/products.js'
 
 const brand = {
   name: 'Velmora',
-  logo: '/images/velmora-logo.png',
+  logo: '/images/velmora-logo.svg',
   phone: '+91 99441 96216',
   email: 'velmoraoils@gmail.com',
   website: 'www.velmoraoilsandspices.com',
@@ -20,9 +20,16 @@ export default function Footer() {
             <img
               src={brand.logo}
               alt={`${brand.name} logo`}
-              className="h-10 w-10 rounded-2xl object-cover ring-1 ring-forest/10"
+              className="h-11 w-11 rounded-3xl bg-white/70 p-1 ring-1 ring-forest/10 shadow-soft"
             />
-            <span className="font-heading text-2xl text-charcoal">{brand.name}</span>
+            <span className="leading-tight">
+              <span className="block font-body text-[12px] tracking-[0.34em] uppercase text-charcoal/70">
+                Premium Essential Oils
+              </span>
+              <span className="block font-heading text-3xl tracking-[0.08em] text-charcoal">
+                {brand.name}
+              </span>
+            </span>
           </Link>
           <p className="mt-3 text-sm text-charcoal/75 max-w-md">
             Premium essential oils and aromatherapy blends crafted for wellness, beauty, and

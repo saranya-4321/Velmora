@@ -11,7 +11,7 @@ import { useCart } from '../context/CartContext.jsx'
 
 const brand = {
   name: 'Velmora',
-  logo: '/images/velmora-logo.png',
+  logo: '/images/velmora-logo.svg',
 }
 
 const links = [
@@ -70,9 +70,16 @@ export default function Navbar() {
               <img
                 src={brand.logo}
                 alt={`${brand.name} logo`}
-                className="h-8 w-8 rounded-xl object-cover ring-1 ring-forest/10"
+                className="h-9 w-9 rounded-2xl bg-white/70 p-1 ring-1 ring-forest/10 shadow-soft"
               />
-              <span className="font-heading text-xl tracking-wide text-charcoal">{brand.name}</span>
+              <span className="leading-tight">
+                <span className="block font-body text-[13px] tracking-[0.34em] uppercase text-charcoal/70">
+                  Premium Essential Oils
+                </span>
+                <span className="block font-heading text-2xl tracking-[0.08em] text-charcoal">
+                  {brand.name}
+                </span>
+              </span>
             </Link>
           </div>
 
@@ -162,9 +169,16 @@ export default function Navbar() {
               <img
                 src={brand.logo}
                 alt={`${brand.name} logo`}
-                className="h-8 w-8 rounded-xl object-cover ring-1 ring-forest/10"
+                className="h-9 w-9 rounded-2xl bg-white/70 p-1 ring-1 ring-forest/10 shadow-soft"
               />
-              <span className="font-heading text-lg text-charcoal">{brand.name}</span>
+              <span className="leading-tight">
+                <span className="block font-body text-[12px] tracking-[0.32em] uppercase text-charcoal/70">
+                  Premium Essential Oils
+                </span>
+                <span className="block font-heading text-xl tracking-[0.08em] text-charcoal">
+                  {brand.name}
+                </span>
+              </span>
             </Link>
             <button
               type="button"

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
@@ -41,6 +41,7 @@ export default function App() {
         <RouteFade>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/index.html" element={<Navigate to="/" replace />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />

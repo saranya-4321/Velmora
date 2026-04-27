@@ -16,24 +16,24 @@ export default function About() {
       <div className="card p-8 sm:p-12">
         <h1 className="font-heading text-3xl sm:text-4xl">About Velmora</h1>
         <p className="mt-4 text-sm sm:text-base text-charcoal/75 leading-relaxed max-w-3xl">
-          Velmora Oils is a premium essential oil & aromatherapy brand inspired by nature’s quiet
-          luxury. We focus on clean formulations, therapeutic-grade quality, and modern rituals that
-          fit effortlessly into daily life.
+          Velmora Essential Oils is a premium Indian brand offering 100% pure, natural, therapeutic‑grade
+          essential oils for everyday wellness. Our oils are steam distilled, chemical‑free, and ethically
+          sourced—designed for aromatherapy, skincare, and haircare with results you can trust.
         </p>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
           {[
             {
-              title: 'Sourced with intention',
-              text: 'We choose botanicals for aroma integrity, consistency, and quality you can trust.',
+              title: 'Steam distilled purity',
+              text: 'Traditional steam distillation to preserve aroma, purity, and therapeutic benefits—no additives or fillers.',
             },
             {
-              title: 'Crafted for rituals',
-              text: 'From morning focus to evening calm — every oil is designed to layer beautifully.',
+              title: 'Everyday wellness',
+              text: 'Lavender for relaxation and sleep, rosemary for hair care rituals, and eucalyptus for a fresh breathing ambience.',
             },
             {
-              title: 'Clean & conscious',
-              text: 'No fillers, no synthetics — just pure plant essence in protective dark glass.',
+              title: 'Quality & transparency',
+              text: 'Recognized among the best essential oil brands in India—Velmora stands for clean sourcing, safe use, and consistent results.',
             },
           ].map((c) => (
             <div key={c.title} className="card p-6 bg-white/40">

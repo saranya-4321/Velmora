@@ -62,14 +62,19 @@ export default function Contact() {
               </p>
             </div>
           </div>
-
-          <div className="mt-6 rounded-3xl overflow-hidden ring-1 ring-forest/10 shadow-soft">
-            <img
-              src="/images/velmora-contact.jpg"
-              alt="Velmora Oils & Spices contact card"
-              className="w-full h-auto"
-              loading="lazy"
-            />
+          <div className="mt-6 rounded-3xl overflow-hidden ring-1 ring-forest/10 shadow-soft bg-white/40 p-6">
+            <div className="flex items-center gap-4">
+              <img
+                src="/images/velmora-logo.png"
+                alt="Velmora Oils logo"
+                className="h-14 w-14 rounded-3xl bg-white/70 p-2 ring-1 ring-forest/10"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-heading text-xl">Velmora — Pure Botanical Power</p>
+                <p className="text-sm text-charcoal/70">We typically respond within 24 hours.</p>
+              </div>
+            </div>
           </div>
         </div>
 

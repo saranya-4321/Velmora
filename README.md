@@ -1,16 +1,28 @@
-# React + Vite
+## Velmora Oils — Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Premium essential oils storefront built with Vite + React + Tailwind, with **Razorpay checkout** via Netlify Functions.
 
-Currently, two official plugins are available:
+### Run locally (frontend only)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+### Razorpay setup (secure)
+- **Do not hardcode credentials** in code.
+- Add env vars in Netlify:
+  - `RAZORPAY_KEY_ID`
+  - `RAZORPAY_KEY_SECRET`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+For local testing with serverless functions, install Netlify CLI and run:
 
-## Expanding the ESLint configuration
+```bash
+npm install -g netlify-cli
+netlify dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Files
+- **Frontend**: `src/`
+- **Product data**: `src/data/products.js`
+- **Razorpay functions**: `netlify/functions/create-order.js` and `netlify/functions/verify-payment.js`

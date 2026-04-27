@@ -11,7 +11,7 @@ import { useCart } from '../context/CartContext.jsx'
 
 const brand = {
   name: 'Velmora',
-  logo: '/images/velmora-logo.svg',
+  logo: '/images/velmora-logo.png',
 }
 
 const links = [

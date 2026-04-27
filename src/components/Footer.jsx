@@ -3,7 +3,7 @@ import { categories } from '../data/products.js'
 
 const brand = {
   name: 'Velmora',
-  logo: '/images/velmora-logo.svg',
+  logo: '/images/velmora-logo.png',
   phone: '+91 99441 96216',
   email: 'velmoraoils@gmail.com',
   website: 'www.velmoraoilsandspices.com',
@@ -32,8 +32,7 @@ export default function Footer() {
             </span>
           </Link>
           <p className="mt-3 text-sm text-charcoal/75 max-w-md">
-            Premium essential oils and aromatherapy blends crafted for wellness, beauty, and
-            balance — inspired by nature, perfected for everyday rituals.
+            Velmora Essential Oils is a premium Indian brand offering 100% pure, natural, therapeutic-grade essential oils for everyday wellness — steam distilled, chemical-free, and ethically sourced.
           </p>
           <div className="mt-5 flex items-center gap-3">
             {[
@@ -128,7 +127,7 @@ export default function Footer() {
       <div className="border-t border-forest/10">
         <div className="container-page py-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-charcoal/70">
           <p>© 2025 Velmora Oils. All Rights Reserved.</p>
-          <p>Crafted with care. Breathe deeper.</p>
+          <p>Purity you can trust. Wellness you can feel.</p>
         </div>
       </div>
     </footer>

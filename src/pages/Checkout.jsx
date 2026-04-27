@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useCart } from '../context/CartContext.jsx'
+import { createRazorpayOrder, loadRazorpayCheckout, verifyRazorpayPayment } from '../lib/razorpay.js'
 
 function formatINR(value) {
   return `₹${Number(value || 0).toLocaleString('en-IN')}`
@@ -49,9 +50,10 @@ export default function Checkout() {
   const total = subtotal + shipping
 
   const [step, setStep] = useState(0)
-  const [paidBy, setPaidBy] = useState('UPI')
+  const [paidBy, setPaidBy] = useState('Razorpay (UPI / Card / Wallet)')
   const [orderPlaced, setOrderPlaced] = useState(false)
   const [orderNo, setOrderNo] = useState('')
+  const [paying, setPaying] = useState(false)
 
   const [shippingInfo, setShippingInfo] = useState({
     name: '',
@@ -80,6 +82,72 @@ export default function Checkout() {
     if (step === 1) return Boolean(paidBy)
     return true
   }, [cartItems.length, step, shippingInfo, paidBy])
+
+  async function payWithRazorpay() {
+    if (paying) return
+    if (!canProceed) return toast.error('Please complete the required details')
+
+    setPaying(true)
+    try {
+      const ok = await loadRazorpayCheckout()
+      if (!ok) throw new Error('Unable to load Razorpay Checkout')
+
+      const receipt = `VO-${Math.floor(100000 + Math.random() * 900000)}`
+
+      const { keyId, order } = await createRazorpayOrder({
+        amountInr: Number(total),
+        receipt,
+        notes: {
+          name: shippingInfo.name,
+          phone: shippingInfo.phone,
+          city: shippingInfo.city,
+        },
+      })
+
+      const options = {
+        key: keyId,
+        name: 'Velmora Oils',
+        description: 'Premium Essential Oils',
+        image: '/images/velmora-logo.png',
+        order_id: order.id,
+        amount: order.amount,
+        currency: order.currency,
+        prefill: {
+          name: shippingInfo.name,
+          email: shippingInfo.email,
+          contact: shippingInfo.phone,
+        },
+        theme: { color: '#0b2b24' },
+        handler: async function (response) {
+          try {
+            const verified = await verifyRazorpayPayment(response)
+            if (!verified?.ok) throw new Error('Payment verification failed')
+            setOrderNo(receipt)
+            setOrderPlaced(true)
+            clearCart()
+            toast.success('Payment successful — order confirmed')
+          } catch (e) {
+            toast.error(e?.message || 'Payment verification failed')
+          } finally {
+            setPaying(false)
+          }
+        },
+        modal: {
+          ondismiss: () => setPaying(false),
+        },
+      }
+
+      const rz = new window.Razorpay(options)
+      rz.on('payment.failed', (err) => {
+        toast.error(err?.error?.description || 'Payment failed')
+        setPaying(false)
+      })
+      rz.open()
+    } catch (e) {
+      setPaying(false)
+      toast.error(e?.message || 'Unable to start payment')
+    }
+  }
 
   useEffect(() => {
     document.title = 'Checkout — Velmora Oils'
@@ -173,7 +241,7 @@ export default function Checkout() {
             <div>
               <h2 className="font-heading text-2xl">Payment Method</h2>
               <div className="mt-6 grid gap-3">
-                {['UPI', 'Card', 'Cash on Delivery'].map((m) => (
+                {['Razorpay (UPI / Card / Wallet)', 'Cash on Delivery'].map((m) => (
                   <button
                     key={m}
                     type="button"
@@ -188,61 +256,13 @@ export default function Checkout() {
                   >
                     <p className="font-semibold">{m}</p>
                     <p className={paidBy === m ? 'text-sm text-cream/85' : 'text-sm text-charcoal/70'}>
-                      {m === 'UPI'
-                        ? 'Pay with UPI — scan & pay.'
-                        : m === 'Card'
-                          ? 'Credit/Debit card payment.'
-                          : 'Pay when your order arrives.'}
+                      {m.startsWith('Razorpay')
+                        ? 'Pay securely via Razorpay (UPI, Card, Wallets, NetBanking).'
+                        : 'Pay when your order arrives.'}
                     </p>
                   </button>
                 ))}
               </div>
-
-              {paidBy === 'UPI' ? (
-                <div className="mt-6 card p-6 bg-white/40">
-                  <p className="text-sm font-semibold">UPI QR</p>
-                  <div className="mt-3 h-40 rounded-2xl bg-forest/10 grid place-items-center">
-                    <span className="text-sm text-charcoal/70">[QR Placeholder]</span>
-                  </div>
-                </div>
-              ) : null}
-
-              {paidBy === 'Card' ? (
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                  <div className="sm:col-span-2">
-                    <label className="text-sm font-semibold" htmlFor="cardNo">
-                      Card number
-                    </label>
-                    <input
-                      id="cardNo"
-                      inputMode="numeric"
-                      placeholder="1234 5678 9012 3456"
-                      className="mt-2 h-11 w-full rounded-2xl bg-white/60 ring-1 ring-forest/10 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold/70"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-semibold" htmlFor="expiry">
-                      Expiry
-                    </label>
-                    <input
-                      id="expiry"
-                      placeholder="MM/YY"
-                      className="mt-2 h-11 w-full rounded-2xl bg-white/60 ring-1 ring-forest/10 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold/70"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-semibold" htmlFor="cvv">
-                      CVV
-                    </label>
-                    <input
-                      id="cvv"
-                      inputMode="numeric"
-                      placeholder="123"
-                      className="mt-2 h-11 w-full rounded-2xl bg-white/60 ring-1 ring-forest/10 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold/70"
-                    />
-                  </div>
-                </div>
-              ) : null}
             </div>
           ) : null}
 
@@ -303,14 +323,16 @@ export default function Checkout() {
                 aria-label="Place order"
                 onClick={() => {
                   if (!canProceed) return toast.error('Please complete the required details')
+                  if (paidBy.startsWith('Razorpay')) return payWithRazorpay()
                   const no = `VO-${Math.floor(100000 + Math.random() * 900000)}`
                   setOrderNo(no)
                   setOrderPlaced(true)
                   clearCart()
                   toast.success('Order placed successfully')
                 }}
+                disabled={paying}
               >
-                Place Order
+                {paidBy.startsWith('Razorpay') ? (paying ? 'Opening Razorpay…' : `Pay ${formatINR(total)}`) : 'Place Order'}
               </button>
             )}
           </div>

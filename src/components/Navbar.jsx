@@ -5,9 +5,11 @@ import {
   HeartIcon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
+  UserCircleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 
 const brand = {
   name: 'Velmora',
@@ -23,10 +25,13 @@ const links = [
 
 export default function Navbar() {
   const { getCartCount, openCart } = useCart()
+  const { isAuthenticated, email, role, logout } = useAuth()
   const cartCount = getCartCount()
   const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const accountLabel = role === 'admin' ? 'Admin' : email ? email.split('@')[0] : 'Account'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4)
@@ -123,7 +128,10 @@ export default function Navbar() {
               type="button"
               aria-label="Open cart"
               className="relative inline-flex items-center justify-center rounded-full p-2 hover:bg-forest/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
-              onClick={openCart}
+              onClick={() => {
+                if (!isAuthenticated) return navigate('/login', { state: { from: '/cart' } })
+                openCart()
+              }}
             >
               <ShoppingBagIcon className="h-5 w-5 text-charcoal" />
               {cartCount > 0 ? (
@@ -132,6 +140,49 @@ export default function Navbar() {
                 </span>
               ) : null}
             </button>
+            <div className="relative hidden sm:block" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                aria-label={isAuthenticated ? 'Open profile menu' : 'Open login'}
+                className="inline-flex items-center gap-2 rounded-full px-2 py-2 hover:bg-forest/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
+                onClick={() => {
+                  if (!isAuthenticated) return navigate('/login')
+                  setProfileOpen((open) => !open)
+                }}
+              >
+                <UserCircleIcon className="h-7 w-7 text-charcoal" />
+                {isAuthenticated ? <span className="max-w-24 truncate text-sm font-semibold text-charcoal">{accountLabel}</span> : null}
+              </button>
+
+              {isAuthenticated && profileOpen ? (
+                <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white p-3 shadow-xl ring-1 ring-forest/10">
+                  <p className="text-sm font-semibold text-charcoal">{accountLabel}</p>
+                  <p className="mt-1 text-xs text-charcoal/60">{email}</p>
+                  {role === 'admin' ? (
+                    <button
+                      type="button"
+                      className="btn-primary mt-3 w-full"
+                      onClick={() => {
+                        setProfileOpen(false)
+                        navigate('/admin')
+                      }}
+                    >
+                      Open Admin Dashboard
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="btn-outline mt-2 w-full"
+                    onClick={() => {
+                      setProfileOpen(false)
+                      logout()
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </header>
@@ -206,6 +257,18 @@ export default function Navbar() {
                 {l.label}
               </NavLink>
             ))}
+            <button
+              type="button"
+              className="mt-2 rounded-2xl px-4 py-3 text-left text-base font-semibold hover:bg-forest/5"
+              onClick={() => {
+                setMobileOpen(false)
+                if (!isAuthenticated) return navigate('/login')
+                if (role === 'admin') return navigate('/admin')
+                logout()
+              }}
+            >
+              {!isAuthenticated ? 'Login' : role === 'admin' ? 'Admin Dashboard' : 'Logout'}
+            </button>
           </nav>
         </aside>
       </div>

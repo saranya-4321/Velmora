@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useCart } from '../context/CartContext.jsx'
 import { createRazorpayOrder, loadRazorpayCheckout, verifyRazorpayPayment } from '../lib/razorpay.js'
+import { submitOrder } from '../lib/backend.js'
 
 function formatINR(value) {
   return `₹${Number(value || 0).toLocaleString('en-IN')}`
@@ -50,7 +51,7 @@ export default function Checkout() {
   const total = subtotal + shipping
 
   const [step, setStep] = useState(0)
-  const [paidBy, setPaidBy] = useState('Razorpay (UPI / Card / Wallet)')
+  const [paidBy] = useState('Razorpay (UPI / Card / Wallet)')
   const [orderPlaced, setOrderPlaced] = useState(false)
   const [orderNo, setOrderNo] = useState('')
   const [paying, setPaying] = useState(false)
@@ -122,6 +123,16 @@ export default function Checkout() {
           try {
             const verified = await verifyRazorpayPayment(response)
             if (!verified?.ok) throw new Error('Payment verification failed')
+            await submitOrder({
+              orderNo: receipt,
+              paymentMethod: 'Razorpay (UPI / Card / Wallet)',
+              paymentStatus: 'paid',
+              subtotal,
+              shipping,
+              total,
+              items: cartItems,
+              shippingInfo,
+            })
             setOrderNo(receipt)
             setOrderPlaced(true)
             clearCart()
@@ -240,28 +251,11 @@ export default function Checkout() {
           {step === 1 ? (
             <div>
               <h2 className="font-heading text-2xl">Payment Method</h2>
-              <div className="mt-6 grid gap-3">
-                {['Razorpay (UPI / Card / Wallet)', 'Cash on Delivery'].map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    aria-label={`Select ${m}`}
-                    onClick={() => setPaidBy(m)}
-                    className={[
-                      'rounded-2xl p-4 text-left ring-1 transition-colors',
-                      paidBy === m
-                        ? 'bg-forest text-cream ring-forest'
-                        : 'bg-white/60 ring-forest/10 hover:bg-forest/5 hover:ring-forest/25',
-                    ].join(' ')}
-                  >
-                    <p className="font-semibold">{m}</p>
-                    <p className={paidBy === m ? 'text-sm text-cream/85' : 'text-sm text-charcoal/70'}>
-                      {m.startsWith('Razorpay')
-                        ? 'Pay securely via Razorpay (UPI, Card, Wallets, NetBanking).'
-                        : 'Pay when your order arrives.'}
-                    </p>
-                  </button>
-                ))}
+              <div className="mt-6 rounded-2xl p-4 text-left ring-1 bg-forest text-cream ring-forest">
+                <p className="font-semibold">Razorpay (UPI / Card / Wallet)</p>
+                <p className="text-sm text-cream/85">
+                  Pay securely via Razorpay (UPI, Card, Wallets, NetBanking).
+                </p>
               </div>
             </div>
           ) : null}
@@ -323,16 +317,11 @@ export default function Checkout() {
                 aria-label="Place order"
                 onClick={() => {
                   if (!canProceed) return toast.error('Please complete the required details')
-                  if (paidBy.startsWith('Razorpay')) return payWithRazorpay()
-                  const no = `VO-${Math.floor(100000 + Math.random() * 900000)}`
-                  setOrderNo(no)
-                  setOrderPlaced(true)
-                  clearCart()
-                  toast.success('Order placed successfully')
+                  return payWithRazorpay()
                 }}
                 disabled={paying}
               >
-                {paidBy.startsWith('Razorpay') ? (paying ? 'Opening Razorpay…' : `Pay ${formatINR(total)}`) : 'Place Order'}
+                {paying ? 'Opening Razorpay…' : `Pay ${formatINR(total)}`}
               </button>
             )}
           </div>

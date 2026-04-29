@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function BotanicalBackdrop() {
@@ -26,7 +27,37 @@ function BotanicalBackdrop() {
   )
 }
 
+const slides = [
+  {
+    id: 1,
+    title: 'Premium Essential Oils for Natural Wellness',
+    text: 'Discover pure essential oils for aromatherapy, skincare, and holistic healing. Shop therapeutic-grade essential oils online with free shipping across India.',
+    ctaPrimary: { to: '/shop?category=Essential%20Oils', label: 'Shop Essential Oils' },
+    ctaSecondary: { to: '/about', label: 'Learn More' },
+    image: '/images/velmora-products.jpg',
+  },
+  {
+    id: 2,
+    title: 'Organic Spices & Natural Essential Oils',
+    text: 'Experience the finest quality organic spices and pure essential oils. From eucalyptus oil to rosemary essential oil, find everything for your natural lifestyle.',
+    ctaPrimary: { to: '/spices', label: 'Explore Spices' },
+    ctaSecondary: { to: '/shop?category=Gift%20Sets', label: 'Gift Sets' },
+    image: '/images/velmora-contact.jpg',
+  },
+]
+
 export default function Hero() {
+  const [activeSlide, setActiveSlide] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % slides.length)
+    }, 4000)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  const currentSlide = slides[activeSlide]
+
   return (
     <section className="relative">
       <div className="container-page pt-14 sm:pt-20">
@@ -36,27 +67,26 @@ export default function Hero() {
             <div>
               <p className="inline-flex items-center gap-2 rounded-full bg-forest/10 px-4 py-2 text-sm font-semibold text-forest">
                 <span className="h-2 w-2 rounded-full bg-gold" aria-hidden="true" />
-                100% Natural & Pure
+                Auto Carousel • 2 Slides
               </p>
               <h1 className="mt-5 font-heading text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
-                Velmora — Purity You Can Trust. Wellness You Can Feel
+                {currentSlide.title}
               </h1>
               <p className="mt-5 text-base sm:text-lg text-charcoal/75 max-w-xl">
-                Premium Indian essential oils—steam distilled, chemical‑free, and ethically sourced.
-                Designed for aromatherapy, skincare, and haircare.
+                {currentSlide.text}
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                <Link to="/shop" className="btn-primary">
-                  Shop Now
+                <Link to={currentSlide.ctaPrimary.to} className="btn-primary">
+                  {currentSlide.ctaPrimary.label}
                 </Link>
-                <Link to="/about" className="btn-outline">
-                  Learn More
+                <Link to={currentSlide.ctaSecondary.to} className="btn-outline">
+                  {currentSlide.ctaSecondary.label}
                 </Link>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-2">
-                {['100% Pure', 'Steam Distilled', 'Chemical‑Free', 'Ethically Sourced'].map((b) => (
+                {['100% Pure', 'Therapeutic Grade', 'Organic Essential Oils', 'Aromatherapy', 'Natural Healing', 'Steam Distilled'].map((b) => (
                   <span
                     key={b}
                     className="inline-flex items-center rounded-full bg-white/60 ring-1 ring-forest/10 px-4 py-2 text-sm font-semibold text-charcoal/80"
@@ -70,38 +100,27 @@ export default function Hero() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-forest/10 via-gold/10 to-transparent rounded-3xl blur-2xl" />
               <div className="relative rounded-3xl overflow-hidden ring-1 ring-forest/10 shadow-soft bg-white/40">
-                <div className="p-6 sm:p-8">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src="/images/velmora-logo.png"
-                      alt="Velmora Oils logo"
-                      className="h-12 w-12 rounded-3xl bg-white/70 p-2 ring-1 ring-forest/10"
-                      loading="lazy"
-                    />
-                    <div>
-                      <p className="text-xs font-semibold text-charcoal/70 tracking-[0.34em] uppercase">
-                        Premium Essential Oils
-                      </p>
-                      <p className="font-heading text-2xl leading-tight">Pure Botanical Power</p>
+                <img src={currentSlide.image} alt="Velmora hero slide" className="h-[420px] w-full object-cover" />
+                <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-xs sm:text-sm font-semibold tracking-[0.24em] uppercase text-cream/95">
+                      Slide {activeSlide + 1} / {slides.length}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      {slides.map((slide, index) => (
+                        <button
+                          key={slide.id}
+                          type="button"
+                          aria-label={`Go to slide ${index + 1}`}
+                          onClick={() => setActiveSlide(index)}
+                          className={[
+                            'h-2.5 rounded-full transition-all',
+                            activeSlide === index ? 'w-8 bg-gold' : 'w-2.5 bg-cream/70',
+                          ].join(' ')}
+                        />
+                      ))}
                     </div>
                   </div>
-
-                  <div className="mt-6 grid grid-cols-3 gap-3">
-                    {[
-                      { src: '/images/lavender.svg', label: 'Lavender' },
-                      { src: '/images/rosemary.svg', label: 'Rosemary' },
-                      { src: '/images/eucalyptus.svg', label: 'Eucalyptus' },
-                    ].map((p) => (
-                      <div key={p.label} className="rounded-2xl overflow-hidden ring-1 ring-forest/10 bg-white/60">
-                        <img src={p.src} alt={`${p.label} essential oil`} className="h-28 sm:h-32 w-full object-cover" />
-                        <p className="px-3 py-2 text-xs font-semibold text-charcoal/75">{p.label}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <p className="mt-5 text-sm text-charcoal/70">
-                    Lavender for relaxation & sleep • Rosemary for hair growth • Eucalyptus for respiratory relief
-                  </p>
                 </div>
               </div>
             </div>

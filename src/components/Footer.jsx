@@ -7,8 +7,6 @@ const brand = {
   phone: '+91 99441 96216',
   email: 'velmoraoils@gmail.com',
   website: 'www.velmoraoilsandspices.com',
-  gstin: '33DRYPK1687M1ZU',
-  fssai: '12426997000230',
 }
 
 export default function Footer() {
@@ -32,7 +30,7 @@ export default function Footer() {
             </span>
           </Link>
           <p className="mt-3 text-sm text-charcoal/75 max-w-md">
-            Velmora Essential Oils is a premium Indian brand offering 100% pure, natural, therapeutic-grade essential oils for everyday wellness — steam distilled, chemical-free, and ethically sourced.
+            Discover premium essential oils at Velmora. Our pure, therapeutic-grade essential oils are steam-distilled, chemical-free, and perfect for aromatherapy, skincare, and natural wellness. Shop organic essential oils online with fast delivery across India.
           </p>
           <div className="mt-5 flex items-center gap-3">
             {[
@@ -55,9 +53,10 @@ export default function Footer() {
         <div>
           <h3 className="font-heading text-lg">About</h3>
           <ul className="mt-3 space-y-2 text-sm">
-            <li className="text-charcoal/75">Therapeutic-grade</li>
-            <li className="text-charcoal/75">Ethically sourced</li>
-            <li className="text-charcoal/75">Designed for rituals</li>
+            <li className="text-charcoal/75">Pure Essential Oils</li>
+            <li className="text-charcoal/75">Therapeutic Grade</li>
+            <li className="text-charcoal/75">Organic & Natural</li>
+            <li className="text-charcoal/75">Aromatherapy Benefits</li>
           </ul>
         </div>
 
@@ -114,20 +113,14 @@ export default function Footer() {
             <li>
               <span className="font-semibold text-charcoal">Website:</span> {brand.website}
             </li>
-            <li className="pt-2">
-              <span className="font-semibold text-charcoal">GSTIN:</span> {brand.gstin}
-            </li>
-            <li>
-              <span className="font-semibold text-charcoal">FSSAI:</span> {brand.fssai}
-            </li>
           </ul>
         </div>
       </div>
 
       <div className="border-t border-forest/10">
         <div className="container-page py-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-charcoal/70">
-          <p>© 2025 Velmora Oils. All Rights Reserved.</p>
-          <p>Purity you can trust. Wellness you can feel.</p>
+          <p>© 2025 Velmora Essential Oils. All Rights Reserved.</p>
+          <p>Premium essential oils for natural wellness and aromatherapy.</p>
         </div>
       </div>
     </footer>

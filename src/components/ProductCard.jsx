@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
 import { HeartIcon, StarIcon } from '@heroicons/react/24/solid'
 import toast from 'react-hot-toast'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 
 function formatINR(value) {
   return `₹${Number(value || 0).toLocaleString('en-IN')}`
@@ -10,6 +11,8 @@ function formatINR(value) {
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
+  const { isAuthenticated } = useAuth()
+  const navigate = useNavigate()
   const [size, setSize] = useState(product?.sizes?.[0] ?? '10ml')
 
   const discountPct = useMemo(() => {
@@ -116,6 +119,10 @@ export default function ProductCard({ product }) {
             aria-label={`Add ${product.name} to cart`}
             className="btn-primary w-full"
             onClick={() => {
+              if (!isAuthenticated) {
+                toast.error('Please login first to use cart')
+                return navigate('/login', { state: { from: '/shop' } })
+              }
               addToCart(product, size, 1)
               toast.success('Added to cart ✓')
             }}

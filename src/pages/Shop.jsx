@@ -26,12 +26,12 @@ export default function Shop() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {
-    document.title = 'Shop — Velmora Oils'
+    document.title = 'Shop Essential Oils Online | Pure Therapeutic Oils India | Velmora'
     const meta = document.querySelector('meta[name="description"]')
     if (meta)
       meta.setAttribute(
         'content',
-        'Shop Velmora Oils — premium essential oils and gift sets crafted for modern aromatherapy rituals.',
+        'Shop pure essential oils online in India. Buy therapeutic-grade essential oils: eucalyptus oil, rosemary oil, lavender oil, peppermint oil, tea tree oil. Organic, natural, aromatherapy oils with fast delivery.',
       )
   }, [])
 

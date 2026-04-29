@@ -11,13 +11,13 @@ const items = [
   },
   {
     icon: '🔬',
-    title: 'Lab Tested & Certified',
-    text: 'Quality checks for consistency, purity, and peace of mind.',
+    title: 'GC/MS Tested & FSSAI',
+    text: 'Strict quality checks for consistency, purity, and safety.',
   },
   {
     icon: '💚',
-    title: 'Cruelty Free',
-    text: 'Always ethical — never tested on animals.',
+    title: 'Cruelty Free & Vegan',
+    text: 'Always ethical ingredients and never tested on animals.',
   },
 ]
 

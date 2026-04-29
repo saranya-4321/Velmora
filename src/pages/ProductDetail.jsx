@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import { getProductById, products } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
 import ProductCard from '../components/ProductCard.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 
 function formatINR(value) {
   return `₹${Number(value || 0).toLocaleString('en-IN')}`
@@ -17,11 +18,20 @@ export default function ProductDetail() {
   const product = getProductById(id)
   const navigate = useNavigate()
   const { addToCart } = useCart()
+  const { isAuthenticated } = useAuth()
 
   const [activeTab, setActiveTab] = useState('Description')
   const [size, setSize] = useState(product?.sizes?.[0] ?? '10ml')
   const [qty, setQty] = useState(1)
   const [activeImage, setActiveImage] = useState(0)
+  const [giftSelections, setGiftSelections] = useState([])
+
+  const isCustomGiftBox = product?.name?.toLowerCase().includes('build your box')
+  const selectableGiftOils = useMemo(
+    () =>
+      products.filter((p) => p.category === 'Essential Oils' && p.inStock).map((p) => p.name.replace('Velmora ', '')),
+    [],
+  )
 
   useEffect(() => {
     if (!product) return
@@ -35,6 +45,7 @@ export default function ProductDetail() {
     setQty(1)
     setActiveImage(0)
     setActiveTab('Description')
+    setGiftSelections([])
   }, [id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const gallery = useMemo(() => {
@@ -58,6 +69,8 @@ export default function ProductDetail() {
     if (!product) return []
     return products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4)
   }, [product])
+
+  const isGiftSelectionValid = !isCustomGiftBox || (giftSelections.length >= 2 && giftSelections.length <= 3)
 
   if (!product) {
     return (
@@ -157,6 +170,41 @@ export default function ProductDetail() {
             </div>
           </div>
 
+          {isCustomGiftBox ? (
+            <div className="mt-6">
+              <p className="text-sm font-semibold text-charcoal">Choose 2 or 3 oils for Gift Box 2</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {selectableGiftOils.map((oilName) => {
+                  const active = giftSelections.includes(oilName)
+                  return (
+                    <button
+                      key={oilName}
+                      type="button"
+                      className={[
+                        'px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ring-1',
+                        active
+                          ? 'bg-forest text-cream ring-forest'
+                          : 'bg-white/60 text-charcoal ring-forest/10 hover:ring-forest/25 hover:bg-forest/5',
+                      ].join(' ')}
+                      onClick={() =>
+                        setGiftSelections((prev) => {
+                          if (prev.includes(oilName)) return prev.filter((n) => n !== oilName)
+                          if (prev.length >= 3) return prev
+                          return [...prev, oilName]
+                        })
+                      }
+                    >
+                      {oilName}
+                    </button>
+                  )
+                })}
+              </div>
+              <p className="mt-2 text-xs text-charcoal/60">
+                Selected: {giftSelections.length}/3 {giftSelections.length ? `(${giftSelections.join(', ')})` : ''}
+              </p>
+            </div>
+          ) : null}
+
           <div className="mt-7 flex items-center gap-4">
             <div className="flex items-center gap-2">
               <button
@@ -185,7 +233,13 @@ export default function ProductDetail() {
               className="btn-primary"
               aria-label="Add to cart"
               onClick={() => {
-                addToCart(product, size, qty)
+                if (!isAuthenticated) {
+                  toast.error('Please login first to use cart')
+                  return navigate('/login', { state: { from: `/product/${id}` } })
+                }
+                if (!isGiftSelectionValid) return toast.error('Please choose 2 or 3 oils for this gift box')
+                const selectedSize = isCustomGiftBox ? `${size} • ${giftSelections.join(' + ')}` : size
+                addToCart(product, selectedSize, qty)
                 toast.success('Added to cart ✓')
               }}
             >
@@ -196,7 +250,13 @@ export default function ProductDetail() {
               className="btn-gold"
               aria-label="Buy now"
               onClick={() => {
-                addToCart(product, size, qty)
+                if (!isAuthenticated) {
+                  toast.error('Please login first to continue')
+                  return navigate('/login', { state: { from: `/product/${id}` } })
+                }
+                if (!isGiftSelectionValid) return toast.error('Please choose 2 or 3 oils for this gift box')
+                const selectedSize = isCustomGiftBox ? `${size} • ${giftSelections.join(' + ')}` : size
+                addToCart(product, selectedSize, qty)
                 toast.success('Added to cart ✓')
                 navigate('/checkout')
               }}

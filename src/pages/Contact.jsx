@@ -10,14 +10,16 @@ export default function Contact() {
     phone: '+91 99441 96216',
     email: 'velmoraoils@gmail.com',
     website: 'www.velmoraoilsandspices.com',
-    gstin: '33DRYPK1687M1ZU',
-    fssai: '12426997000230',
   }
 
   useEffect(() => {
-    document.title = 'Contact — Velmora Oils'
+    document.title = 'Contact Velmora | Essential Oils Manufacturer India | Bulk Orders'
     const meta = document.querySelector('meta[name="description"]')
-    if (meta) meta.setAttribute('content', 'Contact Velmora Oils — we’d love to hear from you.')
+    if (meta)
+      meta.setAttribute(
+        'content',
+        'Contact Velmora for pure essential oils, bulk orders, and wholesale enquiries. India\'s leading therapeutic essential oils manufacturer with fast customer support.',
+      )
   }, [])
 
   return (
@@ -26,8 +28,7 @@ export default function Contact() {
         <div className="card p-8 sm:p-12">
           <h1 className="font-heading text-3xl sm:text-4xl">Contact</h1>
           <p className="mt-4 text-sm sm:text-base text-charcoal/75 leading-relaxed">
-            Questions about oils, orders, or rituals? Send us a note — we typically respond within 24
-            hours.
+            Need help with essential oils, bulk orders, or aromatherapy advice? Contact Velmora, India's trusted essential oils manufacturer. We offer pure therapeutic essential oils, wholesale pricing, and expert guidance for all your natural wellness needs.
           </p>
           <div className="mt-8 space-y-3 text-sm text-charcoal/75">
             <p>

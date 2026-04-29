@@ -12,6 +12,11 @@ import Checkout from './pages/Checkout.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
+import EnquireNow from './components/EnquireNow.jsx'
+import Login from './pages/Login.jsx'
+import { useAuth } from './context/AuthContext.jsx'
+import SpicesLanding from './pages/SpicesLanding.jsx'
 
 function ScrollToTop() {
   const { pathname, search } = useLocation()
@@ -30,6 +35,21 @@ function RouteFade({ children }) {
   )
 }
 
+function Protected({ children }) {
+  const location = useLocation()
+  const { isAuthenticated } = useAuth()
+  if (!isAuthenticated) return <Navigate to="/login" replace state={{ from: `${location.pathname}${location.search}` }} />
+  return children
+}
+
+function AdminProtected({ children }) {
+  const location = useLocation()
+  const { isAuthenticated, role } = useAuth()
+  if (!isAuthenticated) return <Navigate to="/login?mode=admin" replace state={{ from: `${location.pathname}${location.search}` }} />
+  if (role !== 'admin') return <Navigate to="/login?mode=admin" replace state={{ from: `${location.pathname}${location.search}` }} />
+  return children
+}
+
 export default function App() {
   return (
     <div className="min-h-screen bg-cream bg-cream-glow">
@@ -44,16 +64,41 @@ export default function App() {
             <Route path="/index.html" element={<Navigate to="/" replace />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route
+              path="/cart"
+              element={
+                <Protected>
+                  <CartPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <Protected>
+                  <Checkout />
+                </Protected>
+              }
+            />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/spices" element={<SpicesLanding />} />
+            <Route
+              path="/admin"
+              element={
+                <AdminProtected>
+                  <AdminDashboard />
+                </AdminProtected>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </RouteFade>
       </main>
 
       <Footer />
+      <EnquireNow />
       <Toaster
         position="bottom-right"
         toastOptions={{

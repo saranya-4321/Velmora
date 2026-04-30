@@ -42,7 +42,7 @@ const slides = [
     text: 'Experience the finest quality organic spices and pure essential oils. From eucalyptus oil to rosemary essential oil, find everything for your natural lifestyle.',
     ctaPrimary: { to: '/spices', label: 'Explore Spices' },
     ctaSecondary: { to: '/shop?category=Gift%20Sets', label: 'Gift Sets' },
-    image: '/images/velmora-contact.jpg',
+    image: '/images/velmora-products.jpg',
   },
 ]
 

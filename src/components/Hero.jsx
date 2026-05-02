@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function BotanicalBackdrop() {
@@ -27,107 +26,108 @@ function BotanicalBackdrop() {
   )
 }
 
-const slides = [
+const categories = [
   {
-    id: 1,
+    id: 'oils',
+    badge: 'Essential Oils',
     title: 'Premium Essential Oils for Natural Wellness',
-    text: 'Discover pure essential oils for aromatherapy, skincare, and holistic healing. Shop therapeutic-grade essential oils online with free shipping across India.',
+    text: 'Discover pure essential oils for aromatherapy, skincare, and holistic healing. Therapeutic-grade with free shipping across India.',
     ctaPrimary: { to: '/shop?category=Essential%20Oils', label: 'Shop Essential Oils' },
     ctaSecondary: { to: '/about', label: 'Learn More' },
     image: '/images/velmora-products.jpg',
+    tags: ['100% Pure', 'Therapeutic Grade', 'Steam Distilled', 'Aromatherapy'],
+    accentColor: 'from-forest/10 via-gold/10',
   },
   {
-    id: 2,
-    title: 'Organic Spices & Natural Essential Oils',
-    text: 'Experience the finest quality organic spices and pure essential oils. From eucalyptus oil to rosemary essential oil, find everything for your natural lifestyle.',
+    id: 'spices',
+    badge: 'Organic Spices',
+    title: 'Organic Spices & Natural Blends',
+    text: 'Experience the finest quality organic spices sourced directly from farms. From everyday staples to exotic blends for your natural lifestyle.',
     ctaPrimary: { to: '/spices', label: 'Explore Spices' },
     ctaSecondary: { to: '/shop?category=Gift%20Sets', label: 'Gift Sets' },
-    image: '/images/velmora-products.jpg',
+    image: '/images/spices-banner-image.jpg',
+    tags: ['Farm Fresh', 'Organic', 'Hand Picked', 'Natural Healing'],
+    accentColor: 'from-gold/20 via-amber-100/30',
   },
 ]
 
 export default function Hero() {
-  const [activeSlide, setActiveSlide] = useState(0)
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % slides.length)
-    }, 4000)
-    return () => window.clearInterval(timer)
-  }, [])
-
-  const currentSlide = slides[activeSlide]
-
   return (
     <section className="relative">
       <div className="container-page pt-14 sm:pt-20">
-        <div className="card overflow-hidden relative">
-          <BotanicalBackdrop />
-          <div className="grid gap-10 lg:grid-cols-2 p-8 sm:p-12 lg:p-14 items-center">
-            <div>
-              <p className="inline-flex items-center gap-2 rounded-full bg-forest/10 px-4 py-2 text-sm font-semibold text-forest">
-                <span className="h-2 w-2 rounded-full bg-gold" aria-hidden="true" />
-                Auto Carousel • 2 Slides
-              </p>
-              <h1 className="mt-5 font-heading text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
-                {currentSlide.title}
-              </h1>
-              <p className="mt-5 text-base sm:text-lg text-charcoal/75 max-w-xl">
-                {currentSlide.text}
-              </p>
+        {/* Main intro heading */}
+        <div className="text-center mb-10">
+          <p className="inline-flex items-center gap-2 rounded-full bg-forest/10 px-4 py-2 text-sm font-semibold text-forest mb-4">
+            <span className="h-2 w-2 rounded-full bg-gold" aria-hidden="true" />
+            Pure. Organic. Natural.
+          </p>
+          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+            Nature's Finest, Delivered to You
+          </h1>
+          <p className="mt-4 text-base sm:text-lg text-charcoal/70 max-w-2xl mx-auto">
+            From therapeutic-grade essential oils to hand-picked organic spices — everything you need for a natural lifestyle, in one place.
+          </p>
+        </div>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                <Link to={currentSlide.ctaPrimary.to} className="btn-primary">
-                  {currentSlide.ctaPrimary.label}
-                </Link>
-                <Link to={currentSlide.ctaSecondary.to} className="btn-outline">
-                  {currentSlide.ctaSecondary.label}
-                </Link>
-              </div>
+        {/* Two-column category cards */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          {categories.map((cat) => (
+            <div key={cat.id} className="card overflow-hidden relative">
+              <BotanicalBackdrop />
 
-              <div className="mt-8 flex flex-wrap gap-2">
-                {['100% Pure', 'Therapeutic Grade', 'Organic Essential Oils', 'Aromatherapy', 'Natural Healing', 'Steam Distilled'].map((b) => (
-                  <span
-                    key={b}
-                    className="inline-flex items-center rounded-full bg-white/60 ring-1 ring-forest/10 px-4 py-2 text-sm font-semibold text-charcoal/80"
-                  >
-                    {b}
-                  </span>
-                ))}
-              </div>
-            </div>
+              <div className="p-6 sm:p-8 flex flex-col gap-6">
+                {/* Image */}
+                <div className="relative rounded-2xl overflow-hidden ring-1 ring-forest/10 shadow-soft bg-white/40">
+                  <div className={`absolute inset-0 bg-gradient-to-tr ${cat.accentColor} to-transparent rounded-2xl blur-xl`} />
+                  <img
+                    src={cat.image}
+                    alt={cat.badge}
+                    className="relative h-52 sm:h-64 w-full object-cover"
+                  />
+                </div>
 
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-forest/10 via-gold/10 to-transparent rounded-3xl blur-2xl" />
-              <div className="relative rounded-3xl overflow-hidden ring-1 ring-forest/10 shadow-soft bg-white/40">
-                <img src={currentSlide.image} alt="Velmora hero slide" className="h-[420px] w-full object-cover" />
-                <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs sm:text-sm font-semibold tracking-[0.24em] uppercase text-cream/95">
-                      Slide {activeSlide + 1} / {slides.length}
-                    </p>
-                    <div className="flex items-center gap-2">
-                      {slides.map((slide, index) => (
-                        <button
-                          key={slide.id}
-                          type="button"
-                          aria-label={`Go to slide ${index + 1}`}
-                          onClick={() => setActiveSlide(index)}
-                          className={[
-                            'h-2.5 rounded-full transition-all',
-                            activeSlide === index ? 'w-8 bg-gold' : 'w-2.5 bg-cream/70',
-                          ].join(' ')}
-                        />
-                      ))}
-                    </div>
+                {/* Content */}
+                <div>
+                  <p className="inline-flex items-center gap-2 rounded-full bg-forest/10 px-3 py-1.5 text-xs font-semibold text-forest mb-3">
+                    <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-hidden="true" />
+                    {cat.badge}
+                  </p>
+
+                  <h2 className="font-heading text-2xl sm:text-3xl leading-tight">
+                    {cat.title}
+                  </h2>
+
+                  <p className="mt-3 text-sm sm:text-base text-charcoal/70">
+                    {cat.text}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {cat.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center rounded-full bg-white/60 ring-1 ring-forest/10 px-3 py-1 text-xs font-semibold text-charcoal/80"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* CTAs */}
+                  <div className="mt-5 flex flex-col sm:flex-row gap-3">
+                    <Link to={cat.ctaPrimary.to} className="btn-primary">
+                      {cat.ctaPrimary.label}
+                    </Link>
+                    <Link to={cat.ctaSecondary.to} className="btn-outline">
+                      {cat.ctaSecondary.label}
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
   )
 }
-

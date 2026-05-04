@@ -9,7 +9,6 @@ import Shop from './pages/Shop.jsx'
 import ProductDetail from './pages/ProductDetail.jsx'
 import CartPage from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
-import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
@@ -17,6 +16,7 @@ import EnquireNow from './components/EnquireNow.jsx'
 import Login from './pages/Login.jsx'
 import { useAuth } from './context/AuthContext.jsx'
 import SpicesLanding from './pages/SpicesLanding.jsx'
+
 
 function ScrollToTop() {
   const { pathname, search } = useLocation()
@@ -51,18 +51,19 @@ function AdminProtected({ children }) {
 }
 
 export default function App() {
+  const location = useLocation()
   return (
     <div className="min-h-screen bg-cream bg-cream-glow">
       <ScrollToTop />
-      <Navbar />
+      {location.pathname !== '/spices-range' && <Navbar />}
       <CartDrawer />
 
-      <main className="pt-16">
+      <main className={location.pathname === '/spices-range' ? '' : 'pt-16'}>
         <RouteFade>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/index.html" element={<Navigate to="/" replace />} />
-            <Route path="/shop" element={<Shop />} />
+            <Route path="/explore-oils" element={<Shop />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route
               path="/cart"
@@ -80,10 +81,9 @@ export default function App() {
                 </Protected>
               }
             />
-            <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/spices" element={<SpicesLanding />} />
+            <Route path="/spices-range" element={<SpicesLanding />} />
             <Route
               path="/admin"
               element={

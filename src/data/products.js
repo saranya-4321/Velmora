@@ -1,3 +1,5 @@
+
+
 export const products = [
   {
     id: 1,
@@ -24,7 +26,7 @@ export const products = [
     inStock: true,
     featured: true,
   },
-    {
+  {
     id: 2,
     name: 'Velmora Lavender Essential Oil',
     tagline: 'Purity You Can Trust. Wellness You Can Feel.',
@@ -167,7 +169,7 @@ export const products = [
   },
 ]
 
-export const categories = ['All', 'Essential Oils', 'Gift Sets']
+export const categories = ['All', 'Essential Oils', 'Gift Sets', 'Spices']
 
 export function getProductById(id) {
   return products.find((p) => String(p.id) === String(id))

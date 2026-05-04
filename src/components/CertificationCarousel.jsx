@@ -3,22 +3,11 @@ import { useState } from 'react'
 const fssaiLogo = '/images/fssai.jpg'
 const veganLogo = '/images/vegan.png'
 const crueltyFreeLogo = '/images/cruelty-free.png'
-
-const GCMSIcon = () => (
-  <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="52" height="52">
-    <circle cx="40" cy="40" r="38" fill="transparent" />
-    <path d="M32 20h16M32 20v16l-8 18h32l-8-18V20" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <circle cx="36" cy="46" r="2" fill="#D4AF37" opacity="0.6" />
-    <circle cx="44" cy="50" r="1.5" fill="#D4AF37" opacity="0.5" />
-    <circle cx="40" cy="44" r="1" fill="#D4AF37" opacity="0.7" />
-    <circle cx="56" cy="24" r="9" fill="#D4AF37" />
-    <path d="M51 24l3.5 3.5L61 20" stroke="#1a2e1a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
+const GCMSIcon = '/images/GC-MSlogo.png'
 
 const certificates = [
   { name: 'FSSAI Certified', caption: 'Food Safety & Standards Authority of India', type: 'image', src: fssaiLogo },
-  { name: 'GC/MS Tested', caption: 'Lab Verified Purity & Potency', type: 'svg' },
+  { name: 'GC/MS Tested', caption: 'Lab Verified Purity & Potency', type: 'image', src: GCMSIcon },
   { name: 'Cruelty Free', caption: 'Leaping Bunny Certified', type: 'image', src: crueltyFreeLogo },
   { name: '100% Vegan', caption: 'Vegan Society Certified', type: 'image', src: veganLogo },
 ]
@@ -151,18 +140,7 @@ export default function CertificationCarousel() {
         }}>
           ✦ &nbsp; Trusted Quality &nbsp; ✦
         </p>
-        <h2 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: 'clamp(2rem, 4vw, 3rem)',
-          fontWeight: 700,
-          lineHeight: 1.2,
-          margin: '0 0 12px',
-          background: 'linear-gradient(135deg, #f5f0e8 40%, #D4AF37 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>
-          Our Certifications
-        </h2>
+
         <p style={{ color: 'rgba(245,240,232,0.5)', fontSize: '14px', margin: 0 }}>
           Every drop verified — certified, tested, and trusted.
         </p>

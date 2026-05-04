@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useEffect, useMemo, useState, useRef } from 'react'
+import { useSearchParams, useLocation } from 'react-router-dom'
+import toast from 'react-hot-toast'
 import { FunnelIcon } from '@heroicons/react/24/outline'
 import { categories, products } from '../data/products.js'
 import ProductGrid from '../components/ProductGrid.jsx'
@@ -24,6 +25,16 @@ export default function Shop() {
   const [sort, setSort] = useState('Featured')
   const [pageSize, setPageSize] = useState(12)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  const location = useLocation()
+  const giftToastShown = useRef(false)
+
+  useEffect(() => {
+    if (location.state?.message && !giftToastShown.current) {
+      giftToastShown.current = true
+      toast.success(location.state.message, { duration: 5000 })
+    }
+  }, [location.state])
 
   useEffect(() => {
     document.title = 'Shop Essential Oils Online | Pure Therapeutic Oils India | Velmora'
@@ -104,8 +115,13 @@ export default function Shop() {
             step={1}
             value={maxPrice}
             onChange={(e) => setMaxPrice(Number(e.target.value))}
+            onTouchMove={(e) => {
+              e.stopPropagation()
+              setMaxPrice(Number(e.target.value))
+            }}
             aria-label="Price range"
-            className="mt-3 w-full accent-[#2D5016]"
+            style={{ touchAction: 'none' }}
+            className="mt-3 w-full accent-[#2D5016] cursor-pointer"
           />
         </div>
 
@@ -126,7 +142,11 @@ export default function Shop() {
         </div>
 
         {!compact ? null : (
-          <button type="button" className="btn-primary mt-6 w-full" onClick={() => setMobileFiltersOpen(false)}>
+          <button
+            type="button"
+            className="btn-primary mt-6 w-full"
+            onClick={() => setMobileFiltersOpen(false)}
+          >
             Apply Filters
           </button>
         )}
@@ -211,4 +231,3 @@ export default function Shop() {
     </div>
   )
 }
-

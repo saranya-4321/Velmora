@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { categories } from '../data/products.js'
 
 const brand = {
   name: 'Velmora',
@@ -18,11 +17,11 @@ export default function Footer() {
             <img
               src={brand.logo}
               alt={`${brand.name} logo`}
-              className="h-11 w-11 rounded-3xl bg-white/70 p-1 ring-1 ring-forest/10 shadow-soft"
+              className="h-12 w-12 rounded-2xl shadow-soft "
             />
             <span className="leading-tight">
               <span className="block font-body text-[12px] tracking-[0.34em] uppercase text-charcoal/70">
-                Premium Essential Oils
+                Essential Oils and spices
               </span>
               <span className="block font-heading text-3xl tracking-[0.08em] text-charcoal">
                 {brand.name}
@@ -30,26 +29,20 @@ export default function Footer() {
             </span>
           </Link>
           <p className="mt-3 text-sm text-charcoal/75 max-w-md">
-            Discover premium essential oils at Velmora. Our pure, therapeutic-grade essential oils are steam-distilled, chemical-free, and perfect for aromatherapy, skincare, and natural wellness. Shop organic essential oils online with fast delivery across India.
+            Discover premium essential oils and exotic spices at Velmora. Our pure, therapeutic-grade essential oils are steam-distilled and chemical-free. We also offer handpicked natural spices — perfect for your kitchen and wellness needs. Shop online with fast delivery across India.
           </p>
-          <div className="mt-5 flex items-center gap-3">
-            {[
-              { label: 'Instagram', href: '#' },
-              { label: 'Facebook', href: '#' },
-              { label: 'YouTube', href: '#' },
-            ].map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                aria-label={s.label}
-                className="rounded-full px-3 py-2 text-sm font-semibold text-charcoal/80 hover:text-charcoal hover:bg-forest/5 transition-colors"
-              >
-                {s.label}
-              </a>
-            ))}
+          <div className="mt-5 flex items-center gap-4">
+            <a href="#" aria-label="Instagram">
+              <img src="/images/instagram.png" alt="Instagram" className="h-7 w-7 opacity-70 hover:opacity-100 transition-opacity" />
+            </a>
+            <a href="#" aria-label="Facebook">
+              <img src="/images/facebook.png" alt="Facebook" className="h-7 w-7 object-cover rounded-full opacity-70 hover:opacity-100 transition-opacity" />
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <img src="/images/linkedin.png" alt="LinkedIn" className="h-7 w-7 opacity-70 hover:opacity-100 transition-opacity" />
+            </a>
           </div>
         </div>
-
         <div>
           <h3 className="font-heading text-lg">About</h3>
           <ul className="mt-3 space-y-2 text-sm">
@@ -80,7 +73,7 @@ export default function Footer() {
             </li>
             <li>
               <Link className="text-charcoal/75 hover:text-charcoal" to="/cart">
-                Cart
+                Track Order
               </Link>
             </li>
           </ul>
@@ -89,15 +82,21 @@ export default function Footer() {
         <div>
           <h3 className="font-heading text-lg">Categories</h3>
           <ul className="mt-3 space-y-2 text-sm">
-            {categories
-              .filter((c) => c !== 'All')
-              .map((c) => (
-                <li key={c}>
-                  <Link className="text-charcoal/75 hover:text-charcoal" to={`/shop?category=${c}`}>
-                    {c}
-                  </Link>
-                </li>
-              ))}
+            <li>
+              <Link className="text-charcoal/75 hover:text-charcoal" to="/shop?category=Essential Oils">
+                Essential Oils
+              </Link>
+            </li>
+            <li>
+              <Link className="text-charcoal/75 hover:text-charcoal" to="/shop?category=Spices">
+                Spices
+              </Link>
+            </li>
+            <li>
+              <Link className="text-charcoal/75 hover:text-charcoal" to="/shop?category=Gift Sets">
+                Gift Sets
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -119,8 +118,7 @@ export default function Footer() {
 
       <div className="border-t border-forest/10">
         <div className="container-page py-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-charcoal/70">
-          <p>© 2025 Velmora Essential Oils. All Rights Reserved.</p>
-          <p>Premium essential oils for natural wellness and aromatherapy.</p>
+          <p>© 2026 Velmora Essential Oils and spices. All Rights Reserved. Designed by <span><a href="https://www.seyontech.in/" target="_blank" rel="noreferrer" className="text-blue-500 underline hover:text-charcoal transition-colors">Seyontech Digital media Solutions</a></span></p>
         </div>
       </div>
     </footer>

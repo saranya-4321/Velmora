@@ -32,8 +32,8 @@ const categories = [
     badge: 'Essential Oils',
     title: 'Premium Essential Oils for Natural Wellness',
     text: 'Discover pure essential oils for aromatherapy, skincare, and holistic healing. Therapeutic-grade with free shipping across India.',
-    ctaPrimary: { to: '/shop?category=Essential%20Oils', label: 'Shop Essential Oils' },
-    ctaSecondary: { to: '/about', label: 'Learn More' },
+    ctaPrimary: { to: '/explore-oils?category=Essential%20Oils', label: 'Shop Essential Oils' },
+    ctaSecondary: { to: '/spices-range', label: 'Gift Sets' },
     image: '/images/velmora-products.jpg',
     tags: ['100% Pure', 'Therapeutic Grade', 'Steam Distilled', 'Aromatherapy'],
     accentColor: 'from-forest/10 via-gold/10',
@@ -43,8 +43,8 @@ const categories = [
     badge: 'Organic Spices',
     title: 'Organic Spices & Natural Blends',
     text: 'Experience the finest quality organic spices sourced directly from farms. From everyday staples to exotic blends for your natural lifestyle.',
-    ctaPrimary: { to: '/spices', label: 'Explore Spices' },
-    ctaSecondary: { to: '/shop?category=Gift%20Sets', label: 'Gift Sets' },
+    ctaPrimary: { to: '/spices-range', label: 'Explore Spices' },
+    ctaSecondary: { to: '/explore-oils', label: 'Learn More' },
     image: '/images/spices-banner-image.jpg',
     tags: ['Farm Fresh', 'Organic', 'Hand Picked', 'Natural Healing'],
     accentColor: 'from-gold/20 via-amber-100/30',
@@ -100,7 +100,6 @@ export default function Hero() {
                   <p className="mt-3 text-sm sm:text-base text-charcoal/70">
                     {cat.text}
                   </p>
-
                   {/* Tags */}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {cat.tags.map((tag) => (

@@ -14,6 +14,7 @@
   html,
   body {
     height: 100%;
+    overflow-x: hidden;
   }
 
   body {
@@ -40,12 +41,15 @@
   .btn {
     @apply inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
   }
+
   .btn-primary {
     @apply btn bg-forest text-cream shadow-soft hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0;
   }
+
   .btn-outline {
     @apply btn border border-forest/30 text-forest hover:border-forest/60 hover:bg-forest/5;
   }
+
   .btn-gold {
     @apply btn bg-gold text-charcoal shadow-soft hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0;
   }
@@ -59,6 +63,7 @@
   .scrollbar-hide {
     scrollbar-width: none;
   }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }

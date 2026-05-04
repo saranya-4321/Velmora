@@ -3,7 +3,6 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
   Bars3Icon,
   HeartIcon,
-  MagnifyingGlassIcon,
   ShoppingBagIcon,
   UserCircleIcon,
   XMarkIcon,
@@ -18,8 +17,8 @@ const brand = {
 
 const links = [
   { to: '/', label: 'Home' },
-  { to: '/shop', label: 'Shop' },
-  { to: '/about', label: 'About' },
+  { to: '/explore-oils', label: 'Explore Oils' },
+  { to: '/spices-range', label: 'Explore Spices' },
   { to: '/contact', label: 'Contact' },
 ]
 
@@ -56,8 +55,8 @@ export default function Navbar() {
           'fixed inset-x-0 top-0 z-50',
           'transition-all duration-200',
           scrolled
-            ? 'bg-cream/70 backdrop-blur border-b border-forest/10'
-            : 'bg-transparent',
+            ? 'bg-cream backdrop-blur border-b border-forest/10'
+            : 'bg-cream/80 backdrop-blur',
         ].join(' ')}
       >
         <div className="container-page h-16 flex items-center justify-between">
@@ -75,11 +74,11 @@ export default function Navbar() {
               <img
                 src={brand.logo}
                 alt={`${brand.name} logo`}
-                className="h-9 w-9 rounded-2xl bg-white/70 p-1 ring-1 ring-forest/10 shadow-soft"
+                className="h-12 w-12 rounded-2xl shadow-soft"
               />
               <span className="leading-tight">
                 <span className="block font-body text-[13px] tracking-[0.34em] uppercase text-charcoal/70">
-                  Premium Essential Oils
+                  Essential Oils and spices
                 </span>
                 <span className="block font-heading text-2xl tracking-[0.08em] text-charcoal">
                   {brand.name}
@@ -110,17 +109,9 @@ export default function Navbar() {
           <div className="flex items-center gap-1">
             <button
               type="button"
-              aria-label="Search"
-              className="inline-flex items-center justify-center rounded-full p-2 hover:bg-forest/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
-              onClick={() => navigate('/shop')}
-            >
-              <MagnifyingGlassIcon className="h-5 w-5 text-charcoal" />
-            </button>
-            <button
-              type="button"
               aria-label="Wishlist"
               className="inline-flex items-center justify-center rounded-full p-2 hover:bg-forest/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
-              onClick={() => navigate('/shop')}
+              onClick={() => navigate('/explore-oils')}
             >
               <HeartIcon className="h-5 w-5 text-charcoal" />
             </button>
@@ -133,7 +124,7 @@ export default function Navbar() {
                 openCart()
               }}
             >
-              <ShoppingBagIcon className="h-5 w-5 text-charcoal" />
+              <ShoppingBagIcon className="h-5 w-5 text-charcoal/90" />
               {cartCount > 0 ? (
                 <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-gold text-[11px] font-bold text-charcoal grid place-items-center">
                   {cartCount}
@@ -151,7 +142,11 @@ export default function Navbar() {
                 }}
               >
                 <UserCircleIcon className="h-7 w-7 text-charcoal" />
-                {isAuthenticated ? <span className="max-w-24 truncate text-sm font-semibold text-charcoal">{accountLabel}</span> : null}
+                {isAuthenticated ? (
+                  <span className="max-w-24 truncate text-sm font-semibold text-charcoal">
+                    {accountLabel}
+                  </span>
+                ) : null}
               </button>
 
               {isAuthenticated && profileOpen ? (
@@ -275,4 +270,3 @@ export default function Navbar() {
     </>
   )
 }
-

@@ -32,13 +32,13 @@ export default function Footer() {
             Discover premium essential oils and exotic spices at Velmora. Our pure, therapeutic-grade essential oils are steam-distilled and chemical-free. We also offer handpicked natural spices — perfect for your kitchen and wellness needs. Shop online with fast delivery across India.
           </p>
           <div className="mt-5 flex items-center gap-4">
-            <a href="#" aria-label="Instagram">
+            <a href="https://www.instagram.com/velmora.oils.spices?igsh=cXN5NDZ5MjkzOWJ6&utm_source=qr" aria-label="Instagram">
               <img src="/images/instagram.png" alt="Instagram" className="h-7 w-7 opacity-70 hover:opacity-100 transition-opacity" />
             </a>
-            <a href="#" aria-label="Facebook">
+            <a href="https://www.facebook.com/profile.php?id=61582187160767" aria-label="Facebook">
               <img src="/images/facebook.png" alt="Facebook" className="h-7 w-7 object-cover rounded-full opacity-70 hover:opacity-100 transition-opacity" />
             </a>
-            <a href="#" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/kamesh-raj-a238933b4?utm_source=share_via&utm_content=profile&utm_medium=member_android" aria-label="LinkedIn">
               <img src="/images/linkedin.png" alt="LinkedIn" className="h-7 w-7 opacity-70 hover:opacity-100 transition-opacity" />
             </a>
           </div>

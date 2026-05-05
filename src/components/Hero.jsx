@@ -45,7 +45,7 @@ const categories = [
     text: 'Experience the finest quality organic spices sourced directly from farms. From everyday staples to exotic blends for your natural lifestyle.',
     ctaPrimary: { to: '/spices-range', label: 'Explore Spices' },
     ctaSecondary: { to: '/explore-oils', label: 'Learn More' },
-    image: '/images/spices-banner-image.jpg',
+    image: '/images/spicesimage.jpg',
     tags: ['Farm Fresh', 'Organic', 'Hand Picked', 'Natural Healing'],
     accentColor: 'from-gold/20 via-amber-100/30',
   },

@@ -16,6 +16,7 @@ import EnquireNow from './components/EnquireNow.jsx'
 import Login from './pages/Login.jsx'
 import { useAuth } from './context/AuthContext.jsx'
 import SpicesLanding from './pages/SpicesLanding.jsx'
+import NineSignatureSpices from './pages/NineSignatureSpices.jsx'
 
 
 function ScrollToTop() {
@@ -55,10 +56,10 @@ export default function App() {
   return (
     <div className="min-h-screen bg-cream bg-cream-glow">
       <ScrollToTop />
-      {location.pathname !== '/spices-range' && <Navbar />}
+      {location.pathname !== '/spices-range' && location.pathname !== '/ninesignaturespices' && <Navbar />}
       <CartDrawer />
 
-      <main className={location.pathname === '/spices-range' ? '' : 'pt-16'}>
+      <main className={location.pathname === '/spices-range' || location.pathname === '/ninesignaturespices' ? '' : 'pt-16'}>
         <RouteFade>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -84,6 +85,7 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/spices-range" element={<SpicesLanding />} />
+            <Route path="/ninesignaturespices" element={<NineSignatureSpices />} />
             <Route
               path="/admin"
               element={
